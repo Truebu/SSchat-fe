@@ -1,0 +1,40 @@
+<div class="card mx-4 my-4">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item mr-2" *ngIf="!connected">
+                <input type="text" class="form-control" [(ngModel)]="message.userName" placeholder="userName" name="userName">
+            </li>
+            <li class="nav-item mr-2">
+                <button class="btn btn-success" type="button" (click)="connect()" *ngIf="!connected">Connect</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-warning" type="button" (click)="disconnect()" *ngIf="connected">Disconnect</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body" style="overflow: scroll; height: 360px;" *ngIf="connected">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light" *ngFor="let message of messages">
+
+                <span *ngIf="message.type == 'NEW_USER'">
+                    {{message.date | date:'shortTime'}} New user conneted :  {{message.userName}}
+                </span>
+                
+                <span *ngIf="message.type == 'MESSAGE'">
+                    {{message.date | date:'shortTime'}} {{message.userName}} : {{message.text}}
+                </span>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="card-footer" *ngIf="connected">
+        <form class="form-inline">
+            <div class="form-group mx-3">
+                <input type="text" class="form-control" [(ngModel)]="message.text" placeholder="message" name="text">
+            </div>
+            <button class="btn btn-primary" type="submit" (click)="sendMessage()"> Send </button>
+        </form>
+    </div>
+</div>
